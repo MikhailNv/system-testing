@@ -1,5 +1,0 @@
-get-nic==0.0.3
-passlib==1.7.4
-pexpect==4.8.0
-ptyprocess==0.7.0
-PyVirtualDisplay==3.0
