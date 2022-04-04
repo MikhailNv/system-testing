@@ -8,6 +8,7 @@ from pyvirtualdisplay import Display
 
 class GuiProgram:
 
+    # Проверка корректности запуска программ на выполнение
     def check_running_app(self, app):
         display = Display(visible=0, size=(1366, 768))
         display.start()
