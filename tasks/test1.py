@@ -4,10 +4,11 @@ from get_nic import getnic
 import time
 
 class CheckingRules1416:
-
+    # Создание конструктора класса для поиска всех доступных сетевых интерфейсов.
     def __init__(self):
         self.get_int = getnic.interfaces()
 
+    # Проверка на наличие интерфейса, взаимодействующего с сетевым драйвером и уровнем IP.
     def check_working_interface(self):
         cmd = ['ip', 'r', 'g', '1.1.1.1']
         ps = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
@@ -20,6 +21,7 @@ class CheckingRules1416:
         else:
             return [ps.stderr]
 
+    # Проверка статистики прерываний на запущенном интерфейсе
     def check_interrupts(self, net):
         cmd = ['cat', '/proc/interrupts']
         f = open("cat.txt", "w")
@@ -42,7 +44,8 @@ class CheckingRules1416:
                 return grep.stderr
         else:
             return ps.stderr
-
+    
+    # Проверка корректности отключения работающего интерфейса
     def check_interface_is_down(self):
         if len(self.get_int) == 1 and 'lo' in self.get_int:
             return self.get_int[0]
@@ -54,6 +57,7 @@ class CheckingRules1416:
             else:
                 return ps.stderr
 
+    # Проверка корректности включения нужного интерфейса
     def check_interface_is_up(self):
         cmd = ['ifconfig', f'{self.get_int[1]}', 'up']
         ps = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
@@ -68,7 +72,7 @@ class CheckingRules1416:
         else:
             return ps.stderr
 
-    # Получение номер прерывания на 1-ом запущенном интерфейсе
+    # Проверка получения номера прерывания на запущенном интерфейсе
     def get_interrupts(self):
         try:
             cat = self.check_working_interface()[1]
