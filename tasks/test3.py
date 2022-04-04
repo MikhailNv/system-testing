@@ -6,6 +6,7 @@ from typing import Union
 
 class CheckingRules1418:
 
+    # Создание вспомогательного метода по проверке работы команды.
     def check_command(self, command, shell):
         ps = subprocess.run(command, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, shell=shell, encoding='utf-8')
         if ps.returncode == 0:
@@ -13,6 +14,7 @@ class CheckingRules1418:
         else:
             return ps.stderr
 
+    # Просмотр содержимого каталогов с последующим созданием тестовой директории.
     def view_list_of_directories(self):
         cd = self.check_command(['cd', '/..'], True)
         if cd == True:
@@ -36,6 +38,7 @@ class CheckingRules1418:
         else:
             return mkdir
 
+    # Проверка на налчиие созданных файлов.
     def check_created_files(self):
         os.chdir('/../tmp')
         cd = self.check_command(['cd', 'test_1'], True)
@@ -51,6 +54,7 @@ class CheckingRules1418:
         else:
             return cd
 
+    # Проверка налчия скопированного файла.
     def check_copy_file(self):
         os.chdir('/../tmp/test_1')
         copy = self.check_command(['cp', 'myfile_1', '/tmp'], False)
@@ -64,6 +68,7 @@ class CheckingRules1418:
         else:
             return copy
 
+    # Проверка корректности работы рекурсивного копирования.
     def check_recursion_copy(self):
         os.chdir('/../tmp')
         catalog_copy = self.check_command(['cp', '-R', 'test_1', 'test_2'], False)
@@ -76,6 +81,7 @@ class CheckingRules1418:
         else:
             return catalog_copy
 
+    # Проверка переноса и переименования каталогов и файлов.
     def check_move_file(self):
         os.chdir('/../tmp')
         catalog_copy = self.check_command(['mv', 'myfile_1', 'myfile_2'], False)
@@ -90,6 +96,7 @@ class CheckingRules1418:
             else:
                 return ls.stderr
 
+    # Проверка удаления файла.
     def check_remove_file(self):
         os.chdir('/../tmp/test_1')
         rm = self.check_command(['rm', 'myfile_1'], False)
@@ -101,7 +108,7 @@ class CheckingRules1418:
                 return False
         else:
             return rm
-
+    # Проверка удаления каталога.
     def check_remove_catalog(self):
         os.chdir('/../tmp')
         rm = self.check_command(['rm', '-R', 'test_1'], False)
@@ -114,6 +121,7 @@ class CheckingRules1418:
         else:
             return rm
 
+    # Проверка корректности поиска файлов и каталогов.
     def search_validation(self):
         os.chdir('/../tmp/test_2')
         touch = self.check_command(['touch', 'mf1.txt', 'mf2.txt', 'mf3.dat', 'mf4.exe'], False)
