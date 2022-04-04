@@ -4,11 +4,13 @@ import pexpect
 
 class CheckingRules1419:
 
+    # Конструктор класса, создающий при запуске вспомогательный файл.
     def __init__(self, passwd):
         with open('cat.txt', 'w') as f:
             f.write(passwd)
             f.close()
 
+    # Вспомогательный метод
     def call_new_window(self, command):
         input = open('cat.txt')
         f = subprocess.run(command, stdin=input, stdout=subprocess.PIPE,
@@ -16,6 +18,7 @@ class CheckingRules1419:
         input.close()
         return f
 
+    # Проверка прав
     def check_rights(self, user, passwd):
         child = pexpect.spawn(f"su - {user}")
         i = child.expect_exact(["$", "Password:"])
@@ -34,6 +37,7 @@ class CheckingRules1419:
         else:
             return False
 
+    # Проверка добавления пользователей и группы.
     def check_add_users_and_groups(self):
         passwd_test1 = sha512_crypt.encrypt('q1w2e3r4')
         passwd_test2 = sha512_crypt.encrypt('1q2w3e4r')
@@ -61,6 +65,7 @@ class CheckingRules1419:
         if self.check_rights('test1', 'q1w2e3r4') == True and self.check_rights('test2', '1q2w3e4r') == False:
             return True
 
+    # Проверка смены пароля у тестового пользователя.
     def check_change_password_testuser(self, password):
         child = pexpect.spawn("su - test1")
         i = child.expect_exact(["$", "Password:"])
@@ -87,12 +92,14 @@ class CheckingRules1419:
             else:
                 return child.before.decode().split('\r\n')
 
+    # Запрет измения собственного пароля у тестового пользователя.
     def prohibition_of_change(self):
         chage = self.call_new_window('sudo -S -u root chage -m 36500 test1'.split())
         if chage.returncode != 0:
             return chage.stderr
         return self.check_change_password_testuser('ivk1419!')
 
+    # Проверка изменения пароля root-пользователем.
     def check_change_passwd_with_root(self):
         child = pexpect.spawn('sudo -i')
         i = child.expect_exact(["#", "password"])
@@ -110,6 +117,7 @@ class CheckingRules1419:
         else:
             return child.before.decode().split('\r\n')
 
+    # Удаление созданных пользователей, файлов и группы.
     def delete_data(self):
         del_test1 = self.call_new_window('sudo -S userdel test1'.split())
         del_test2 = self.call_new_window('sudo -S userdel test2'.split())
