@@ -1,41 +1,36 @@
 import unittest
 import subprocess
-from TestCase_1415 import TestCase_1415
-from TestCase_1416 import TestCase_1416
-from TestCase_1417 import TestCase_1417
-from TestCase_1418 import TestCase_1418
-from TestCase_1419 import TestCase_1419
+from testSuite_1_1.testCases.TestCase_1415 import TestCase_1415
+from testSuite_1_1.testCases.TestCase_1416 import TestCase_1416
+from testSuite_1_1.testCases.TestCase_1417 import TestCase_1417
+from testSuite_1_1.testCases.TestCase_1418 import TestCase_1418
+from testSuite_1_1.testCases.TestCase_1419 import TestCase_1419
 
-"""
- def check_packages():
-     update = subprocess.run('apt-get -y update'.split(), stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
-                             shell=False, encoding='utf-8')
-     if update.returncode != 0:
-         return update.stderr
-     else:
-         packages = ['gimp', 'vlc', 'vim']
+def check_packages():
+    update = subprocess.run('apt-get -y update'.split(), stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                         shell=False, encoding='utf-8')
+    if update.returncode != 0:
+        return update.stderr
+    else:
+         packages = ['gimp', 'vlc', 'vim-console', 'xorg-xvfb', 'pip']
          f = open("cat.txt", 'w')
-         check = subprocess.run(['dpkg-query', '-f', "'${binary:Package}\n'", '-W'], stdout=f,
-                                stderr=subprocess.PIPE, encoding='utf-8')
-         f.close()
-         if check.returncode != 0:
-             return check.stderr
          for i in range(len(packages)):
-             cmd = ['grep', packages[i]]
-             input = open("cat.txt")
-             grep = subprocess.run(cmd, stdin=input, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   encoding='utf-8')
-             input.close()
-             if len(grep.stdout.split('\n')[0]) != packages[i]:
-                 install = subprocess.run(f'apt install -y --force-yes {packages[i]}'.split(), stdout=subprocess.PIPE,
-                                          stderr=subprocess.PIPE,
-                                          encoding='utf-8')
-                 if install.returncode != 0:
-                     return install.stderr
+             # cmd = ['grep', packages[i]]
+             # input = open("cat.txt")
+             # grep = subprocess.run(cmd, stdin=input, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+             #                       encoding='utf-8')
+             # input.close()
+             # if len(grep.stdout.split('\n')[0]) != packages[i]:
+             print(f"Installing package {packages[i]}")
+             install = subprocess.run(f'apt-get install -y --force-yes {packages[i]}'.split(), stdout=subprocess.PIPE,
+                                      stderr=subprocess.PIPE,
+                                      encoding='utf-8')
+             if install.returncode != 0:
+                 return install.stderr
          cmd = ['rm', 'cat.txt']
          subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, encoding='utf-8')
          return "Все пакеты успешно установлены"
-"""
+
 
 def suite():
     suite = unittest.TestSuite()
@@ -68,6 +63,6 @@ def suite():
 
 if __name__ == '__main__':
     print("Проверка пакетов...")
-    # print(check_packages())
+    print(check_packages())
     runner = unittest.TextTestRunner()
     runner.run(suite())

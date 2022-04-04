@@ -1,7 +1,7 @@
 import unittest
 import os, sys
 import subprocess
-sys.path.insert(1, os.path.join(sys.path[0], "../tasks"))
+sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
 from test4 import CheckingRules1419
 
 class TestCase_1419(unittest.TestCase):

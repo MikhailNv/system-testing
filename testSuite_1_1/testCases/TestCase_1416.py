@@ -1,7 +1,7 @@
 import unittest
 import os, sys
 import time
-sys.path.insert(1, os.path.join(sys.path[0], "../tasks"))
+sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
 from test1 import CheckingRules1416
 
 class TestCase_1416(unittest.TestCase):
