@@ -7,15 +7,15 @@ class CheckingRules1419:
 
     # Конструктор класса, создающий при запуске вспомогательный файл.
     def __init__(self, passwd):
-        with open('cat.txt', 'w') as f:
+        with open('/tmp/cat.txt', 'w') as f:
             f.write(passwd)
             f.close()
 
     # Вспомогательный метод
     def call_new_window(self, command):
-        input = open('cat.txt')
+        input = open('/tmp/cat.txt')
         f = subprocess.run(command, stdin=input, stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE, encoding='utf-8')
+                          stderr=subprocess.PIPE, encoding='utf-8')
         input.close()
         return f
 
@@ -130,5 +130,3 @@ class CheckingRules1419:
             if i.returncode != 0:
                 return i.stderr
         return True
-
-
